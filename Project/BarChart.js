@@ -1,22 +1,32 @@
 
 class BarChart {
-    constructor(_chartWidth, _chartHeight, _name, _posX, _posY, _data) {
+    constructor(_chartWidth, _chartHeight, _name, _posX, _posY, _data,_xValueText, _yValue) {
         this.chartWidth = _chartWidth;
         this.chartHeight = _chartHeight;
         this.name = _name;
         this.posX = _posX;
         this.posY = _posY;
         this.data = _data;
+        this.yValue = _yValue;
+
         this.numTicks = 10;
         this.nearestRounded = 100000;
         this.maxNum = this.calculateMax();
         this.margin = 10;
-        this.gap = 15;
+        this.gap = 12;
+
+        this.barNumber = this.data.getRowCount();
+        this.remainingWidth = this.chartWidth - (this.margin * 2) - ((this.barNumber - 1) * this.gap);
+        this.barWidth = this.remainingWidth / this.barNumber;
+        this.barSpacing = this.barWidth + this.gap;
+
+        this.xValueText = this.data.getColumn(_xValueText);
+
     }
 
     render() {
         noFill();
-        stroke(255)
+        stroke(255);
         
         push();
             translate(this.posX, this.posY);
@@ -27,17 +37,13 @@ class BarChart {
     }
 
     drawBars() {
-        let barNum = this.data.getRowCount();
-        let remainingWidth = this.chartWidth - (this.margin * 2) - ((barNum - 1) * this.gap);
-        let barWidth = remainingWidth / barNum;
-        let barSpacing = barWidth + this.gap;
 
         push();
-        translate(this.margin, 0);
-        for(let x=0; x < barNum; x++) {
-            let val = int(-this.data.rows[x].obj.Total)
-            rect(x * barSpacing, 0, barWidth, this.scaler(val));
-        }
+            translate(this.margin, 0);
+            for(let x=0; x <  this.barNumber; x++) {
+                let val = int(-this.data.rows[x].obj[this.yValue])
+                rect(x * this.barSpacing, 0, this.barWidth, this.scaler(val));
+            }
         pop();
         
     }
@@ -46,22 +52,22 @@ class BarChart {
         //X-axis Line
         line(0, 0, this.chartWidth, 0);
 
-        let barNum = this.data.getRowCount();
-        let remainingWidth = this.chartWidth - (this.margin * 2) - ((barNum - 1) * this.gap);
-        let barWidth = remainingWidth / barNum;
-        let barSpacing = barWidth + this.gap;
-
         push();
-        translate(this.margin, 0);
-        let labelArray = this.data.getColumn("Age Group");
-        for(let x = 0; x < labelArray.length; x++) {
-            let val = labelArray[x];
-            fill(255)
-            noStroke();
-            textSize(6)
-            textAlign(CENTER, TOP)
-            text(val, x * barSpacing + (barWidth/2), 20);
-        }
+            translate(this.margin, 0);
+            
+            for(let x = 0; x < this.xValueText.length; x++) {
+                let val = this.xValueText[x];
+
+                push()
+                    translate(x * this.barSpacing + (this.barWidth / 2), 10);
+                    rotate(45);
+                    fill(255)
+                    noStroke();
+                    textSize(15)
+                    textAlign(LEFT, TOP)
+                    text(val, 0, 0);
+                pop();
+            }
         pop()
     }
 
@@ -86,14 +92,14 @@ class BarChart {
     }
 
     calculateMax() {
-        console.log(data.rows[0].obj.Total);
+        console.log(data.rows[0].obj[this.yValue]);
         console.log(data.getRowCount());
 
 
         let max = 0;
         for(let x = 0; x < this.data.getRowCount(); x++) {
-            if(int(this.data.rows[x].obj.Total) > max) {
-                max = int(this.data.rows[x].obj.Total);
+            if(int(this.data.rows[x].obj[this.yValue]) > max) {
+                max = int(this.data.rows[x].obj[this.yValue]);
                 console.log(max);
             }
         }

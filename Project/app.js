@@ -1,17 +1,22 @@
 let data;
 let chart;
+let chart02;
 
 function preload() {
     data = loadTable('data/CurrentFullDrivingLicences.csv', 'csv', 'header' );
 }
 
 function setup() {
-    createCanvas(800, 800);
+    createCanvas(1000, 1000);
     background(0);
-    pixelDensity()
-    chart = new BarChart(400,400, "hello", 250,550, data);
+    noLoop()
+    //Testing 
+    // pixelDensity();
+    chart = new BarChart(300,300, "hello", 100,350, data, "Age Group", "Female");
+    chart02 = new BarChart(300,300, "hello", 600, 350, data, "Age Group", "Male")
 }
 
 function draw() {
     chart.render();
+    chart02.render();
 }

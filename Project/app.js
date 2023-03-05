@@ -12,11 +12,9 @@ function setup() {
     noLoop()
     //Testing 
     // pixelDensity();
-    chart = new BarChart(300,300, "hello", 100,350, data, "Age Group", "Female");
-    chart02 = new BarChart(300,300, "hello", 600, 350, data, "Age Group", "Male")
+    chart = new BarChart(300,300, "hello", 100,350, data, "Age Group", "Total");
 }
 
 function draw() {
     chart.render();
-    chart02.render();
 }

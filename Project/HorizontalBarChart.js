@@ -1,0 +1,11 @@
+
+class HorizontalBarChart {
+    constructor() {
+
+    }
+
+    render() {
+
+    }
+    
+}

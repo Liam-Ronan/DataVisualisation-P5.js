@@ -58,6 +58,9 @@ class BarChart {
             for(let x = 0; x < this.xValueText.length; x++) {
                 let val = this.xValueText[x];
 
+                stroke(100)
+                line(this.barSpacing * (x + 1), 0, this.barSpacing * (x + 1), -this.chartHeight);
+
                 push()
                     translate(x * this.barSpacing + (this.barWidth / 2), 10);
                     rotate(45);
@@ -80,6 +83,12 @@ class BarChart {
             let ySpace = -this.chartHeight / this.numTicks;
             stroke(255)
             line(0, ySpace * y, -10, ySpace * y);
+
+           
+            stroke(100)
+            line(0, ySpace * y, this.chartWidth, ySpace * y);
+           
+    
             
 
             let unitSpace = (this.maxNum / this.numTicks).toFixed();

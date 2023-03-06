@@ -13,8 +13,10 @@ function setup() {
     //Testing 
     // pixelDensity();
     chart = new BarChart(300,300, "hello", 100,350, data, "Age Group", "Total");
+    chart02 = new StackedBarChart(300,300, "Hello", 550, 350, data, "Age Group", "Total", "Male", "Female");
 }
 
 function draw() {
     chart.render();
+    chart02.render();
 }

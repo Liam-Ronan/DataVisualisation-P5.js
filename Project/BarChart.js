@@ -83,7 +83,10 @@ class BarChart {
             translate(this.margin, 0);
             for(let x=0; x <  this.barNumber; x++) {
                 let val = int(-this.data.rows[x].obj[this.yValue])
-                rect(x * this.barSpacing, 0, this.barWidth, this.scaler(val));
+                rect(x * this.barSpacing, 0, this.barWidth, this.scaler(val)-(this.barWidth/2));
+
+                ellipseMode(CENTER);
+                ellipse(x * this.barSpacing + (this.barWidth / 2), this.scaler(val) + (-this.barWidth/2), this.barWidth, this.barWidth)
             }
         pop();
         

@@ -8,6 +8,7 @@ let chart05;
 function preload() {
     data = loadTable('data/AllYearsCurrentFullDrivingLicense.csv', 'csv', 'header' );
     data2 = loadTable('data/CurrentFullDrivingLicences.csv', 'csv', 'header');
+    data3 = loadTable('data/StudentsLeinsterDublin.csv', 'csv', 'header');
 }
 
 function setup() {
@@ -16,7 +17,7 @@ function setup() {
     noLoop()
     //Testing 
     // pixelDensity();
-    chart = new BarChart(400,400, "hello", 100,450, data, "Year", "Total");
+    chart = new BarChart(400,400, "hello", 100,450, data2, "Age Group", "Total");
     chart02 = new StackedBarChart(400,400, "Hello", 700, 450, data, "Year", "Total");
     chart03 = new HorizontalBarChart(400, 400, "Hello", 100, 1000, data, "Year", "Total");
     chart04 = new StackedHorizontalBarChart(400, 400, "Hello", 700, 1000, data, "Year", "Total");

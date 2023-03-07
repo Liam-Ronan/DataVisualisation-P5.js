@@ -9,11 +9,12 @@ class BarChart {
         this.data = _data;
         this.yValue = _yValue;
 
-        this.numTicks = 8;
+        this.numTicks = 10;
         this.nearestRounded = 100000;
         this.maxNum = this.calculateMax();
         this.margin = 10;
         this.gap = 12;
+        this.ellipseHeight = 5
 
         this.barNumber = this.data.getRowCount();
         this.remainingWidth = this.chartWidth - (this.margin * 2) - ((this.barNumber - 1) * this.gap);
@@ -37,7 +38,8 @@ class BarChart {
         //X-axis Line
         stroke(255);
         line(0, 0, this.chartWidth, 0);
-            
+        push()  
+            translate(this.margin, 0);
             for(let x = 0; x < this.xValueText.length; x++) {
                 let val = this.xValueText[x];
 
@@ -51,6 +53,7 @@ class BarChart {
                     text(val, 0, 0);
                 pop();
             }
+        pop()
     }
 
     drawYAxis() {
@@ -83,10 +86,11 @@ class BarChart {
             translate(this.margin, 0);
             for(let x=0; x <  this.barNumber; x++) {
                 let val = int(-this.data.rows[x].obj[this.yValue])
-                rect(x * this.barSpacing, 0, this.barWidth, this.scaler(val)-(this.barWidth/2));
+                rect(x * this.barSpacing, 0, this.barWidth, this.scaler(val));
 
-                ellipseMode(CENTER);
-                ellipse(x * this.barSpacing + (this.barWidth / 2), this.scaler(val) + (-this.barWidth/2), this.barWidth, this.barWidth)
+                ellipseMode(CENTER)
+                stroke(100)
+                ellipse(x * this.barSpacing + (this.barWidth / 2), this.scaler(val) + (-this.barWidth/this.barSpacing), this.barWidth, this.ellipseHeight);
             }
         pop();
         

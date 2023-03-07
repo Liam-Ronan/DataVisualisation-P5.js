@@ -14,6 +14,7 @@ class HorizontalBarChart {
         this.maxNum = this.calculateMax();
         this.margin = 10;
         this.gap = 12;
+        this.ellipseHeight = 5
 
         this.barNumber = this.data.getRowCount();
         this.remainingWidth = this.chartHeight - (this.margin * 2) - ((this.barNumber - 1) * this.gap);
@@ -63,7 +64,6 @@ class HorizontalBarChart {
         for(let y = 0; y < reversed.length; y++) {
             let ySpace = -this.chartHeight / this.barNumber;
             let val = reversed[y];
-            console.log(val)
 
             //text on ticks/ space between each tick
             noStroke();
@@ -81,21 +81,27 @@ class HorizontalBarChart {
             for(let x = 0; x < this.barNumber; x++) {
                 let value = int(-this.data.rows[x].obj[this.xValue]);
                 rect(x * this.barSpacing, 0, this.barWidth, this.scaler(value));
+
+                ellipseMode(CENTER)
+                stroke(100)
+                ellipse(x * this.barSpacing + (this.barWidth / 2), this.scaler(value) + (-this.barWidth/this.barSpacing), this.barWidth, this.ellipseHeight);
             }
         pop()
     }
 
     calculateMax() {
-        let max = 0;
+        console.log(data.rows[0].obj[this.xValue]);
 
+        let max = 0;
         for(let x = 0; x < this.data.getRowCount(); x++) {
             if(int(this.data.rows[x].obj[this.xValue]) > max) {
                 max = int(this.data.rows[x].obj[this.xValue]);
+                console.log(max);
             }
         }
-
-        let totalNum = 1000000;
-        for(let x = max; x < totalNum; x++) {
+        
+        let TotalNum = 1000000;
+        for(let x = max; x < TotalNum; x++) {
             if(x % this.numTicks==0 && x % this.nearestRounded==0) {
                 max = x;
                 break;

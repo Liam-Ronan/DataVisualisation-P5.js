@@ -7,6 +7,7 @@ let chart05;
 
 function preload() {
     data = loadTable('data/AllYearsCurrentFullDrivingLicense.csv', 'csv', 'header' );
+    data2 = loadTable('data/CurrentFullDrivingLicences.csv', 'csv', 'header');
 }
 
 function setup() {

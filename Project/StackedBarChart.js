@@ -87,7 +87,7 @@ class StackedBarChart {
             stroke(255)
             line(0, ySpace * y, -10, ySpace * y);
 
-            stroke(100)
+            stroke(170)
             line(0, ySpace * y, this.chartWidth, ySpace * y);
             
 

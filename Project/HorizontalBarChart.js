@@ -41,7 +41,7 @@ class HorizontalBarChart {
             stroke(255)
             line(xSpace * x, 0, xSpace * x, 10);
 
-            stroke(200)
+            stroke(175)
             line(xSpace * x, 0, xSpace * x, -this.chartHeight);
 
             let unitSpace = (this.maxNum / this.numTicks).toFixed();

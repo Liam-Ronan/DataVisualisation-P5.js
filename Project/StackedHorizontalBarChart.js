@@ -41,7 +41,7 @@ class StackedHorizontalBarChart {
             stroke(255)
             line(xSpace * x, 0, xSpace * x, 10);
 
-            stroke(100)
+            stroke(170)
             line(xSpace * x, 0, xSpace * x, -this.chartHeight);
 
             let unitSpace = (this.maxNum / this.numTicks).toFixed();
@@ -64,6 +64,7 @@ class StackedHorizontalBarChart {
             let ySpace = -this.chartHeight / this.barNumber;
             let val = reversed[y];
             console.log(val)
+
 
             //text on ticks/ space between each tick
             noStroke();

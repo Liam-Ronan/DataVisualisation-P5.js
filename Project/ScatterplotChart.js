@@ -38,11 +38,15 @@ class ScatterplotChart {
         stroke(255);
         line(0, 0, this.chartWidth, 0);
             
-            for(let x = 0; x < this.xValueText.length; x++) {
+            for(let x = 0; x < this.xValueText.length + 1; x++) {
                 let val = this.xValueText[x];
+                let xSpace = this.chartWidth / this.xValueText.length;
+
+                stroke(175)
+                line(xSpace * x, 0, xSpace * x, -this.chartHeight);
 
                 push()
-                    translate(x * this.barSpacing + (this.barWidth / 2), 10);
+                    translate(xSpace * x + (this.barWidth * 2), 10);
                     rotate(45);
                     fill(255);
                     noStroke();
@@ -64,7 +68,7 @@ class ScatterplotChart {
             line(0, ySpace * y, -10, ySpace * y);
 
            //Drawing horizontal grid lines
-            stroke(100)
+            stroke(175)
             line(0, ySpace * y, this.chartWidth, ySpace * y);
 
             //text on ticks/ space between each tick
@@ -80,11 +84,11 @@ class ScatterplotChart {
     drawEllipses() {
 
         push();
-        ellipseMode(CENTER)
             translate(this.margin, 0);
             for(let x=0; x <  this.barNumber; x++) {
                 let val = this.data.rows[x].obj[this.yValue]
-                ellipse(this.scaler(x) * this.barSpacing, this.barWidth, 25)
+
+                
             }
         pop();
         
@@ -115,7 +119,7 @@ class ScatterplotChart {
     }
 
     // Scaling bars to always be inside the chart height - dividing chartHeight by maxNum, returning the passed _num divided by scale value
-    scaler(_num) {
+    xScaler(_num) {
         let scaleValue = this.maxNum / this.chartWidth;
         return _num / scaleValue;
     }

@@ -63,9 +63,9 @@ class BarChart {
             stroke(255)
             line(0, ySpace * y, -10, ySpace * y);
 
-           //Drawing horizontal grid lines
-            stroke(100)
-            line(0, ySpace * y, this.chartWidth, ySpace * y);
+            //Drawing horizontal grid lines
+            stroke(175)
+            line(0, ySpace * y, this.chartWidth, ySpace * y); 
 
             //text on ticks/ space between each tick
             let unitSpace = (this.maxNum / this.numTicks).toFixed();

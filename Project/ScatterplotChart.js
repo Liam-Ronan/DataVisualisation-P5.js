@@ -80,6 +80,7 @@ class ScatterplotChart {
     drawEllipses() {
 
         push();
+        ellipseMode(CENTER)
             translate(this.margin, 0);
             for(let x=0; x <  this.barNumber; x++) {
                 let val = this.data.rows[x].obj[this.yValue]
@@ -117,11 +118,6 @@ class ScatterplotChart {
     scaler(_num) {
         let scaleValue = this.maxNum / this.chartWidth;
         return _num / scaleValue;
-    }
-
-    ellipseScaler(_val) {
-        let ellipseNum = map(_val, 1, 222, 5, 35)
-        return ellipseNum;
     }
 
 }

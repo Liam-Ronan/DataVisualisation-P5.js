@@ -1,6 +1,6 @@
 
 class StackedBarChart {
-    constructor(_chartWidth, _chartHeight, _name, _posX, _posY, _data,_xValueText, _yValue, _dataOne, _dataTwo) {
+    constructor(_chartWidth, _chartHeight, _name, _posX, _posY, _data,_xValueText, _yValue) {
         this.chartWidth = _chartWidth;
         this.chartHeight = _chartHeight;
         this.name = _name;
@@ -8,8 +8,6 @@ class StackedBarChart {
         this.posY = _posY;
         this.data = _data;
         this.yValue = _yValue;
-        this.dataOne = _dataOne;
-        this.dataTwo = _dataTwo;
 
         this.numTicks = 10;
         this.nearestRounded = 100000;
@@ -48,7 +46,8 @@ class StackedBarChart {
                 /* console.log(genders); */
                 fill(255)
                 rect(x * this.barSpacing, 0, this.barWidth, -this.scaler(genders[x].obj.Male));
-                fill(155,0,200);
+                
+                fill(0,0,200);
                 rect(x * this.barSpacing, -this.scaler(genders[x].obj.Male), this.barWidth, -this.scaler(genders[x].obj.Female))
             }
         pop();
@@ -87,6 +86,9 @@ class StackedBarChart {
             let ySpace = -this.chartHeight / this.numTicks;
             stroke(255)
             line(0, ySpace * y, -10, ySpace * y);
+
+            stroke(100)
+            line(0, ySpace * y, this.chartWidth, ySpace * y);
             
 
             let unitSpace = (this.maxNum / this.numTicks).toFixed();
@@ -99,9 +101,6 @@ class StackedBarChart {
     }
 
     calculateMax() {
-        /* console.log(data.rows[0].obj[this.yValue]);
-        console.log(data.getRowCount()); */
-
 
         let max = 0;
         for(let x = 0; x < this.data.getRowCount(); x++) {

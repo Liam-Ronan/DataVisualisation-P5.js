@@ -1,14 +1,18 @@
 
 class StackedBarChart {
-    constructor(_chartWidth, _chartHeight, _name, _posX, _posY, _data,_xValueText, _yValue) {
+    constructor(_chartWidth, _chartHeight, _chartTitle, _chartYLabel, _chartXLabel, _posX, _posY, _data,_xValueText, _stackOne, _stackTwo) {
         this.chartWidth = _chartWidth;
         this.chartHeight = _chartHeight;
-        this.name = _name;
+        this.chartTitle = _chartTitle;
+        this.chartYLabel = _chartYLabel;
+        this.chartXLabel = _chartXLabel;
         this.posX = _posX;
         this.posY = _posY;
         this.data = _data;
-        this.yValue = _yValue;
+        this.stackOne = _stackOne;
+        this.stackTwo = _stackTwo;
 
+        this.ellipseHeight = 5
         this.numTicks = 10;
         this.nearestRounded = 100000;
         this.maxNum = this.calculateMax();
@@ -30,25 +34,108 @@ class StackedBarChart {
         
         push();
             translate(this.posX, this.posY);
+            this.drawChartTitle()
+            //Calling drawYLabel method to write the text on the outside of the Y-Axis
+            this.drawYLabel();
+            //Calling drawXLabel method to write the text on the Bottom of the X-Axis
+            this.drawXLabel(); 
+            this.drawLabels()
+            this.drawStackTotal();   
             this.drawXAxis();
             this.drawYAxis();
             this.drawBars();
         pop();
     }
 
+    drawChartTitle() {
+        noStroke();
+        textSize(18);
+        fill(255);
+        textAlign(CENTER, CENTER);
+        text(this.chartTitle, this.chartWidth / 2 - this.margin, -this.chartHeight - (this.margin * 6))
+    }
+
+    drawYLabel() {
+        push()
+            translate(-this.margin * 9 - 20, -this.chartHeight / 2);
+            textSize(18);
+            textAlign(CENTER, CENTER)
+            fill(255)
+            rotate(PI / 2);
+            noStroke();
+            fill(255)
+            text(this.chartYLabel, 0, 0)
+        pop()
+    }
+
+    drawXLabel() {
+        noStroke();
+        textSize(18);
+        fill(255);
+        textAlign(CENTER, CENTER);
+        text(this.chartXLabel, this.chartWidth / 2 - this.margin, 110)
+    }
+
+    drawLabels() {
+
+        fill(colours[0]);
+        textSize(12)
+        textAlign(LEFT, CENTER)
+        noStroke();
+        rect(this.chartWidth / 7 + (this.margin * 4), 65, 15,10);
+        fill(255)
+        text(this.data.columns[2], this.chartWidth / 7 + (this.margin * 6.5), 72);
+        
+        fill(colours[1]);
+        noStroke();
+        rect(this.chartWidth / 2 + (this.margin * 4), 65, 15,10);
+        noFill();
+        fill(255);
+        text(this.data.columns[3], this.chartWidth / 4 + (this.margin * 16.5),  72);
+    }
+
+    drawStackTotal() {
+        for(let i = 0; i < this.barNumber; i++) {
+            let label = this.data.rows[i].obj.Total;
+
+            push()
+                translate(i * this.barSpacing + (this.barWidth / 2), -this.scaler(label) + -20)
+                fill(255);
+                rotate(-45);
+                textAlign(LEFT, CENTER);
+                textSize(12);
+                noStroke()
+                text(label, 0, 10);
+            pop()
+        }
+    }
+
     drawBars() {
 
         push();
             translate(this.margin, 0);
-            let genders = this.data.getRows();
             
             for(let x=0; x <  this.barNumber; x++) {
                 /* console.log(genders); */
-                fill(255)
-                rect(x * this.barSpacing, 0, this.barWidth, -this.scaler(genders[x].obj.Male));
+                fill(colours[0]);
+                rect(x * this.barSpacing, 0, this.barWidth, -this.scaler(this.data.rows[x].obj[this.stackOne]));
+
+                for(let i = 0; i < this.barNumber; i++) {
+                    let secondStackYPos = -this.scaler(this.data.rows[i].obj[this.stackOne])
+                    let secondStackYScale = -this.scaler(this.data.rows[i].obj[this.stackTwo])
+
+                    fill(colours[1]);
+                    rect(i * this.barSpacing, secondStackYPos, this.barWidth, secondStackYScale);
+
+                    ellipseMode(CENTER)
+                    stroke(50)
+                    ellipse(i * this.barSpacing + (this.barWidth / 2), -this.scaler(this.data.rows[i].obj[this.stackTwo]) + -this.scaler(this.data.rows[i].obj[this.stackOne]) + (-this.barWidth/this.barSpacing), this.barWidth, this.ellipseHeight);
+
+                    stroke(50)
+                    ellipse(i * this.barSpacing + (this.barWidth / 2), -this.scaler(this.data.rows[i].obj[this.stackOne]) + (-this.barWidth/this.barSpacing), this.barWidth, this.ellipseHeight);
+
+                }
                 
-                fill(0,0,200);
-                rect(x * this.barSpacing, -this.scaler(genders[x].obj.Male), this.barWidth, -this.scaler(genders[x].obj.Female))
             }
         pop();
         
@@ -72,7 +159,7 @@ class StackedBarChart {
                     textSize(15)
                     textAlign(LEFT, TOP)
                     text(val, 0, 0);
-                pop();
+                pop(); 
             }
         pop()
     }
@@ -87,7 +174,7 @@ class StackedBarChart {
             stroke(255)
             line(0, ySpace * y, -10, ySpace * y);
 
-            stroke(170)
+            stroke(50)
             line(0, ySpace * y, this.chartWidth, ySpace * y);
             
 
@@ -97,6 +184,7 @@ class StackedBarChart {
             textSize(15);
             textAlign(RIGHT, CENTER)
             text(y * unitSpace, -20, ySpace*y);
+
         }
     }
 
@@ -104,8 +192,8 @@ class StackedBarChart {
 
         let max = 0;
         for(let x = 0; x < this.data.getRowCount(); x++) {
-            if(int(this.data.rows[x].obj[this.yValue]) > max) {
-                max = int(this.data.rows[x].obj[this.yValue]);
+            if(int(this.data.rows[x].obj.Total) > max) {
+                max = int(this.data.rows[x].obj.Total);
                 // console.log(max);
             }
         }

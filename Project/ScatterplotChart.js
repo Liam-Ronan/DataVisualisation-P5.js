@@ -1,17 +1,19 @@
 
 class ScatterplotChart {
     //Passing values to the constructor as class properties - Certain values user configurable
-    constructor(_chartWidth, _chartHeight, _name, _posX, _posY, _data, _xValue, _yValue, _showLabels) {
+    constructor(_chartWidth, _chartHeight, _chartTitle, _chartYLabel, _chartXLabel, _posX, _posY, _data, _yValue, _xValue, _showLabels) {
         this.chartWidth = _chartWidth;
         this.chartHeight = _chartHeight;
-        this.name = _name;
+        this.chartTitle = _chartTitle;
+        this.chartYLabel = _chartYLabel;
+        this.chartXLabel = _chartXLabel;
         this.posX = _posX;
         this.posY = _posY;
         this.data = _data;
         this.xValue = _xValue;
         this.yValue = _yValue;
         this.showLabels = _showLabels;
-
+        
         //Calling a calculate method to calculate total of each column
         this.maxXNum = this.calculateXYNum(this.xValue);
         this.maxYNum = this.calculateXYNum(this.yValue);
@@ -24,16 +26,56 @@ class ScatterplotChart {
         this.pointRemainingWidth = this.chartWidth - (this.margin * 2) - (this.pointNumber - 1) * this.gap;
         this.pointWidth = this.pointRemainingWidth / this.pointNumber;
         this.pointSpacing = this.pointWidth + this.gap;
+
+
+        // for(let i = 0; i < this.data.getRowCount(); i++) {
+        //     console.log(this.data.rows[i].obj[this.showLabels])
+        // }
     }
 
     //Render method translates to the positions assigned with posX and posY - calls other methods
     render() {
         push();
             translate(this.posX, this.posY);
+            this.drawChartTitle();
+            this.drawChartTitle();
+            //Calling drawYLabel method to write the text on the outside of the Y-Axis
+            this.drawYLabel();
+            //Calling drawXLabel method to write the text on the Bottom of the X-Axis
+            this.drawXLabel(); 
             this.drawXAxis();
             this.drawYAxis();
             this.drawPoints();
         pop();
+    }
+
+    drawChartTitle() {
+        noStroke();
+        textSize(18);
+        fill(255);
+        textAlign(CENTER, CENTER);
+        text(this.chartTitle, this.chartWidth / 2 - this.margin, -this.chartHeight - (this.margin * 6))
+    }
+
+    drawYLabel() {
+        push()
+            translate(-this.margin * 7 - 20, -this.chartHeight / 2);
+            textSize(18);
+            fill(255)
+            textAlign(CENTER, CENTER)
+            rotate(PI / 2);
+            noStroke();
+            fill(255)
+            text(this.chartYLabel, 0, 0)
+        pop()
+    }
+
+    drawXLabel() {
+        noStroke();
+        textSize(18);
+        fill(255);
+        textAlign(CENTER, CENTER);
+        text(this.chartXLabel, this.chartWidth / 2 - this.margin, 110)
     }
 
     drawXAxis() {
@@ -47,7 +89,7 @@ class ScatterplotChart {
             line(xTickSpace * x, 0, xTickSpace * x, 10);
 
             //Drawing horizontal lines across the chart
-            stroke(175)
+            stroke(50)
             line(xTickSpace * x, 0, xTickSpace * x, -this.chartHeight);
 
             //Calculating the number each tick will go across as, aligning text, sizing text etc.
@@ -73,7 +115,7 @@ class ScatterplotChart {
             line(0, yTickSpace * y, -10, yTickSpace * y)
 
             //Drawing Vertical grid lines
-            stroke(175)
+            stroke(50)
             line(0, yTickSpace * y, this.chartWidth, yTickSpace * y); 
 
             //Converting the numbers to be fixed numbers, aligning text, sizing text etc.
@@ -103,15 +145,18 @@ class ScatterplotChart {
 
         //Looping through all the rows of data
         for(let i = 0; i < this.pointNumber; i++) {
-            fill(255);
+            fill(colours[i % colours.length]);
             /* Calling the scale method, specifying the data that will be passed, and
             returns a map as the X & Y co-ordinates*/
             ellipse(this.scaleXData(this.data.rows[i].obj[this.xValue]), this.scaleYData(this.data.rows[i].obj[this.yValue]), this.pointWidth, this.pointWidth);
 
-            fill(255)
-            textAlign(CENTER, CENTER);
-            text(this.scaleXData(this.data.rows[i].obj[this.showLabels], this.scaleYData(this.data.rows[i].obj[this.showLabels]), 10))
-            console.log(this.showLabels)
+            push()
+                fill(255);
+                textSize(8);
+                textAlign(CENTER, CENTER);
+                translate(this.scaleXData(this.data.rows[i].obj[this.xValue]) - 10, this.scaleYData(this.data.rows[i].obj[this.yValue]));
+                text(this.data.rows[i].obj[this.showLabels], 10, -15);
+            pop()
             
         }
     }

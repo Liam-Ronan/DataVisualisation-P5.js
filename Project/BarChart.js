@@ -98,15 +98,15 @@ class BarChart {
 
 
     calculateMax() {
-        console.log(data.rows[0].obj[this.yValue]);
-        console.log(data.getRowCount());
+        // console.log(data.rows[0].obj[this.yValue]);
+        // console.log(data.getRowCount());
 
 
         let max = 0;
         for(let x = 0; x < this.data.getRowCount(); x++) {
             if(int(this.data.rows[x].obj[this.yValue]) > max) {
                 max = int(this.data.rows[x].obj[this.yValue]);
-                console.log(max);
+                // console.log(max);
             }
         }
         

@@ -9,7 +9,7 @@ class StackedHorizontalBarChart {
         this.data = _data;
         this.xValue = _xValue;
 
-        this.numTicks = 8;
+        this.numTicks = 10;
         this.nearestRounded = 100000;
         this.maxNum = this.calculateMax();
         this.margin = 10;
@@ -63,7 +63,7 @@ class StackedHorizontalBarChart {
         for(let y = 0; y < reversed.length; y++) {
             let ySpace = -this.chartHeight / this.barNumber;
             let val = reversed[y];
-            console.log(val)
+            // console.log(val)
 
 
             //text on ticks/ space between each tick

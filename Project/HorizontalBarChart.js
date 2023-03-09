@@ -10,7 +10,7 @@ class HorizontalBarChart {
         this.xValue = _xValue;
 
         this.numTicks = 8;
-        this.nearestRounded = 100000;
+        this.nearestRounded = 100;
         this.maxNum = this.calculateMax();
         this.margin = 10;
         this.gap = 12;
@@ -37,7 +37,7 @@ class HorizontalBarChart {
         stroke(255);
         line(0, 0, this.chartWidth, 0);
 
-        for(let x = 0; x < this.numTicks; x++) {
+        for(let x = 0; x < this.numTicks + 1; x++) {
             let xSpace = this.chartWidth / this.numTicks;
             stroke(255)
             line(xSpace * x, 0, xSpace * x, 10);
@@ -68,9 +68,9 @@ class HorizontalBarChart {
             //text on ticks/ space between each tick
             noStroke();
             fill(255);
-            textSize(15);
+            textSize(12);
             textAlign(RIGHT, CENTER)
-            text(val, -20, ySpace * (y + 0.8));
+            text(val, -15, ySpace * (y + 0.90));
         }
     }
 
@@ -90,7 +90,7 @@ class HorizontalBarChart {
     }
 
     calculateMax() {
-        console.log(data.rows[0].obj[this.xValue]);
+        // console.log(data.rows[0].obj[this.xValue]);
 
         let max = 0;
         for(let x = 0; x < this.data.getRowCount(); x++) {
@@ -100,7 +100,7 @@ class HorizontalBarChart {
             }
         }
         
-        let TotalNum = 1000000;
+        let TotalNum = 1000;
         for(let x = max; x < TotalNum; x++) {
             if(x % this.numTicks==0 && x % this.nearestRounded==0) {
                 max = x;

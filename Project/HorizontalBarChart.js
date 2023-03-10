@@ -118,7 +118,7 @@ class HorizontalBarChart {
             rotate(1.57)
             for(let x = 0; x < this.barNumber; x++) {
                 let value = int(-this.data.rows[x].obj[this.xValue]);
-                let label = this.data.rows[x].obj[this.label];
+                let label = this.data.rows[x].obj[this.label].toUpperCase();
                 // console.log(label)
                 fill(colours[x % colours.length]);
                 rect(x * this.barSpacing, 0, this.barWidth, this.scaler(value));
@@ -129,12 +129,13 @@ class HorizontalBarChart {
 
                 push()
                 translate(x * this.barSpacing + (this.barWidth / 2), this.scaler(value)/2)
-                    fill(0)
+                    fill(255)
+                    noStroke()
                     rotate(-45.55)
                     textAlign(CENTER, CENTER);
                     textSize(12)
+                    textStyle(BOLD)
                     text(label, 0,0);
-                    noStroke()
                 pop()
             }
         pop()

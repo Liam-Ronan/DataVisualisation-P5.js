@@ -34,7 +34,7 @@ class ScatterplotChart {
     }
 
     //Render method translates to the positions assigned with posX and posY - calls other methods
-    render() {
+    render(_name = false) {
         push();
             translate(this.posX, this.posY);
             this.drawChartTitle();
@@ -45,7 +45,7 @@ class ScatterplotChart {
             this.drawXLabel(); 
             this.drawXAxis();
             this.drawYAxis();
-            this.drawPoints();
+            this.drawPoints(_name);
         pop();
     }
 
@@ -140,7 +140,7 @@ class ScatterplotChart {
     }
 
     //Method to draw ellipses
-    drawPoints() {
+    drawPoints(_name) {
         translate(0,0);
 
         //Looping through all the rows of data
@@ -155,7 +155,16 @@ class ScatterplotChart {
                 textSize(8);
                 textAlign(CENTER, CENTER);
                 translate(this.scaleXData(this.data.rows[i].obj[this.xValue]) - 10, this.scaleYData(this.data.rows[i].obj[this.yValue]));
-                text(this.data.rows[i].obj[this.showLabels], 10, -15);
+                if(_name) {
+                    if(this.data.rows[i].arr[1] > this.maxYNum / 4) {
+                        text(this.data.rows[i].obj[this.showLabels], 10, -15);
+                    }
+                }
+                else {
+                    text(this.data.rows[i].obj[this.showLabels], 10, -15);
+                }
+             
+                
             pop()
             
         }

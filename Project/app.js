@@ -42,6 +42,7 @@ function draw() {
     chart02.render();
     chart03.render();
     chart04.render();
-    chart05.render();
+    //
+    chart05.render(true);
     chart06.render();
 }

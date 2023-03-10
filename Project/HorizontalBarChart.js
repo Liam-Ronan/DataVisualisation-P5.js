@@ -98,6 +98,7 @@ class HorizontalBarChart {
         stroke(255);
         line(0,0,0,-this.chartHeight);
 
+        //Reversing the columns gotten above and looping through them
         let reversed = this.yValueText.reverse();
         for(let y = 0; y < reversed.length; y++) {
             let ySpace = -this.chartHeight / this.barNumber;

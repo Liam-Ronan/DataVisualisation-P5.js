@@ -140,23 +140,24 @@ class ScatterplotChart {
     }
 
     //Method to draw ellipses
-    drawPoints(_name) {
+    drawPoints(_setLabel) {
         translate(0,0);
 
         //Looping through all the rows of data
         for(let i = 0; i < this.pointNumber; i++) {
             fill(colours[i % colours.length]);
-            /* Calling the scale method, specifying the data that will be passed, and
+
+            /* Calling the scale X & Y methods, specifying the data that will be passed, and
             returns a map as the X & Y co-ordinates*/
             ellipse(this.scaleXData(this.data.rows[i].obj[this.xValue]), this.scaleYData(this.data.rows[i].obj[this.yValue]), this.pointWidth, this.pointWidth);
 
             push()
                 fill(255);
-                textSize(8);
+                textSize(10);
                 textAlign(CENTER, CENTER);
                 translate(this.scaleXData(this.data.rows[i].obj[this.xValue]) - 10, this.scaleYData(this.data.rows[i].obj[this.yValue]));
-                if(_name) {
-                    if(this.data.rows[i].arr[1] > this.maxYNum / 4) {
+                if(_setLabel) {
+                    if(this.data.rows[i].arr[1] > this.maxYNum / 6) {
                         text(this.data.rows[i].obj[this.showLabels], 10, -15);
                     }
                 }
